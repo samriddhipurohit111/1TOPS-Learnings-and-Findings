@@ -1,0 +1,38 @@
+PART 1: CREATING A CLOCK
+
+create_clock -name <clock_name> -period <Time_period> -waveform {<rise_time> <fall_time>} [get_ports <clock_port_name>]
+
+
+EXAMPLE 1:
+create_clock -name clk -period 10 -waveform {0 5} [get_ports clk]
+# Duty cycle = 50%
+
+
+EXAMPLE 2:
+create_clock -name clk -period 40 -waveform {0 20} [get_ports clk]
+# Duty cycle = 50%
+
+
+EXAMPLE 3:
+create_clock -name clk -period 20 -waveform {0 10} [get_ports clk]
+# Duty cycle = 50%
+
+
+EXAMPLE 4:
+create_clock -name test_clk -period 20 -waveform {10 20} [get_ports clk_pll]
+# Duty cycle = 50%
+
+
+EXAMPLE 5:
+create_clock -name test_clk -period 15 -waveform {5 12} [get_ports clk_pll]
+# Duty cycle = 46.6%
+
+
+EXAMPLE 6:
+create_clock -name test_clk -period 20 -waveform {5 15} [get_ports clk_pll]
+# Duty cycle = 50%
+
+
+EXAMPLE 7:
+create_clock -name clk -period 1.2 -waveform {0.3 0.6} [get_ports clk_pll]
+# Duty cycle = 25%
