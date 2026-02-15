@@ -1,0 +1,115 @@
+# PrimeTime Clock Constraints Guide
+
+## 1. create_clock (Primary Clock)
+
+### Syntax
+
+    create_clock -name <clock_name> -period <time_period> -waveform {<rise_time> <fall_time>} [get_ports <clock_port_name>]
+
+### Explanation
+
+-   **-name** : Name of the clock
+-   **-period** : Total time of one complete cycle
+-   **-waveform {rise fall}** : Rising and falling edge times
+-   **\[get_ports clk\]** : Applies clock to input port
+
+### Duty Cycle Formula
+
+Duty Cycle = (High Time / Period) × 100\
+High Time = (fall - rise)
+
+------------------------------------------------------------------------
+
+### Example 1 (50% Duty Cycle)
+
+    create_clock -name clk -period 10 -waveform {0 5} [get_ports clk]
+
+Period = 10 ns\
+High time = 5 ns\
+Duty cycle = 50%
+
+------------------------------------------------------------------------
+
+## 2. create_generated_clock (Derived Clock)
+
+Used when a clock is derived from another clock (divider, PLL,
+multiplier, gating logic).
+
+### Basic Syntax
+
+    create_generated_clock     -name <new_clock_name>     -source <master_clock_pin>     [options]     <generated_clock_pin>
+
+------------------------------------------------------------------------
+
+## Important Options
+
+### -divide_by
+
+Used for frequency division.
+
+Example:
+
+    create_generated_clock     -name clk_div2     -source [get_ports clk]     -divide_by 2     [get_pins u_divider/Q]
+
+If master period = 10ns\
+New period = 20ns
+
+------------------------------------------------------------------------
+
+### -multiply_by
+
+Used for frequency multiplication.
+
+If master period = 10ns and multiply_by 2 → New period = 5ns
+
+------------------------------------------------------------------------
+
+### -duty_cycle
+
+Used when duty cycle changes during multiplication.
+
+Range: 0 to 100
+
+------------------------------------------------------------------------
+
+### -invert
+
+Used if generated clock is inverted version of master.
+
+------------------------------------------------------------------------
+
+### -combinational
+
+Used when clock passes only through combinational logic.
+
+------------------------------------------------------------------------
+
+## Difference Between create_clock and create_generated_clock
+
+  create_clock              create_generated_clock
+  ------------------------- -------------------------
+  Used for primary clocks   Used for derived clocks
+  Applied on input port     Applied on internal pin
+  No source required        Source mandatory
+
+------------------------------------------------------------------------
+
+## Why Generated Clock is Important
+
+Without defining generated clocks:
+
+-   Tool cannot calculate correct frequency
+-   Setup and hold analysis becomes incorrect
+-   Clock relationships are not properly modeled
+
+------------------------------------------------------------------------
+
+## Summary
+
+1.  Always define primary clock first.
+2.  Define generated clocks for divider, PLL, multiplier outputs.
+3.  Ensure proper source definition.
+4.  Verify period calculations manually.
+5.  Incorrect clock modeling leads to wrong STA results.
+
+-----------------------------------------------------------------------
