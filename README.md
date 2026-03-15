@@ -1,1 +1,2 @@
-It has the synthesis script and dft synthesis script that does scan chain insertions , also it has certain examples and syntax of SDC constraints while I was studying them
+
+The repository includes the synthesis script and a DFT synthesis script for scan chain insertion. It also contains example files and syntax references for SDC constraints that were studied during the implementation process.
